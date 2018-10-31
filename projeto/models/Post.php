@@ -25,12 +25,12 @@ class Post
 	public function read($id=null){
 
 		if(isset($id)){ //id tem valor
-			$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post where id=:id";
+			$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post where id=:id order by dt_criacao desc";
 			//prepara a execução
 			$stmt = $this->conexao->prepare($query);
 			$stmt->bindParam('id', $id);
 		}else{ //id não tem valor
-			$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post order by titulo";
+			$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post order by dt_criacao desc";
 			//prepara a execução
 			$stmt = $this->conexao->prepare($query);
 		}
@@ -46,7 +46,7 @@ class Post
 	public function readByCat($idcat){
 
 		
-		$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post where id_categoria=:id_categoria";
+		$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post where id_categoria=:id_categoria order by dt_criacao desc";
 		//prepara a execução
 		$stmt = $this->conexao->prepare($query);
 		$stmt->bindParam('id_categoria', $idcat);
