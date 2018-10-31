@@ -80,6 +80,9 @@
 	<script>
 		const menu = document.querySelector(".menu");
 		const publicacoes = document.querySelector("#publicacoes");
+		const categoria = document.querySelector(".menu");
+
+
 		
 		async function geraMenu(){
 			resp = await fetch('http://localhost/projeto/api/categoria/read.php');
@@ -135,6 +138,9 @@
 		geraPost();
 		geraMenu();
 
+		categoria.addEventListener("click", function(){
+   			alert(1)
+		});
 	</script>
 </body>
 </html>
