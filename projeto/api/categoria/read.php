@@ -14,6 +14,9 @@
 
 	$cat = new Categoria($conexao);
 
+//testar se o GET traz um id de post. Se trouxer, chama read($id)
+//se nao vir id no GET, faz o read para todos read()
+
 	$resultado = $cat->read();
 
 	$qtde_cats = sizeof($resultado);

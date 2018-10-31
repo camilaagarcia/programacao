@@ -43,6 +43,22 @@ class Post
 		return $resultado;
 	}
 
+	public function readByCat($idcat){
+
+		
+		$query = "select id, titulo, texto, id_categoria, autor, dt_criacao from post where id_categoria=:id_categoria";
+		//prepara a execução
+		$stmt = $this->conexao->prepare($query);
+		$stmt->bindParam('id_categoria', $idcat);
+		
+		//executa a consulta
+		$stmt->execute();
+		//transforma o resultado em um Array
+		$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		//retorna o resultado
+		return $resultado;
+	}
+
 	public function create(){
 		$query = 'insert into post (titulo, texto, id_categoria, autor) values (:titulo, :texto, :id_categoria, :autor)';
 		$stmt = $this->conexao->prepare($query);

@@ -80,7 +80,7 @@
 	<script>
 		const menu = document.querySelector(".menu");
 		const publicacoes = document.querySelector("#publicacoes");
-		const categoria = document.querySelector(".menu");
+		const categoria = document.querySelectorAll(".menu > li");
 
 
 		
@@ -90,11 +90,53 @@
 			
 			for (i=0; i<categorias.length; i++){
 				li = document.createElement("li");
+				li.setAttribute('id', categorias[i].id)
 				a = document.createElement("a");
 				texto = document.createTextNode(categorias[i].nome);
 				a.appendChild(texto);
 				li.appendChild(a);
 				menu.appendChild(li);
+
+				li.addEventListener('click', function(){
+					postsPorCategoria(this.id); //chamando a funcao que fará a requisição, passando o id da categoria
+				})
+
+			}
+
+		}
+
+		async function postsPorCategoria(idcat){
+			resp = await fetch('http://localhost/projeto/api/posts/read.php?idcategoria='+idcat);
+			publicacoes.innerHTML = '';
+			posts = await resp.json();
+				for (i=0; i<posts.length; i++){
+					bloco = document.createElement("div");
+					bloco.setAttribute("class", "bloco");
+
+					h2 = document.createElement("h2");
+					titulo = document.createTextNode(posts[i].titulo);
+					h2.appendChild(titulo);
+					bloco.appendChild(h2);
+
+					pub = document.createElement("div");
+					pub.setAttribute("class", "pub");
+
+					pub.innerHTML = "Publicado em "+posts[i].dt_criacao + "<br/>Por "+posts[i].autor ;
+					//data = document.createTextNode("Publicado em "+posts[i].dt_criacao);
+					//pub.appendChild(data);
+					
+					//autor = document.createTextNode("<br/> Por "+posts[i].autor);
+					//pub.appendChild(autor);
+
+					p = document.createElement("p");
+					texto = document.createTextNode(posts[i].texto);
+					p.appendChild(texto);
+
+					bloco.appendChild(h2);
+					bloco.appendChild(pub);
+					bloco.appendChild(p);
+
+					publicacoes.appendChild(bloco);
 
 			}
 
@@ -138,9 +180,9 @@
 		geraPost();
 		geraMenu();
 
-		categoria.addEventListener("click", function(){
-   			alert(1)
-		});
+		// categoria.addEventListener("click", function(){
+  //  			alert(this.id)
+		// });
 	</script>
 </body>
 </html>

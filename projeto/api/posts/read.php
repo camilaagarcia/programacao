@@ -13,7 +13,20 @@
 
 	$cat = new Post($conexao);
 
-	$resultado = $cat->read();
+
+//testar se o GET traz um id de post. Se trouxer, chama read($id)
+//se nao vir id no GET, faz o read para todos read()
+//se em vez de mandar id do post, vier o od de categoria, listar todos os posts daquela categoria
+
+	if (isset($_GET['id'])){
+		$resultado = $cat->read($_GET['id']);
+	}elseif(isset($_GET['idcategoria'])){
+		$resultado = $cat->readByCat($_GET['idcategoria']);
+	}else{
+		$resultado = $cat->read();
+	}
+
+
 
 	$qtde_cats = sizeof($resultado);
 
