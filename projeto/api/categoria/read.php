@@ -17,7 +17,13 @@
 //testar se o GET traz um id de post. Se trouxer, chama read($id)
 //se nao vir id no GET, faz o read para todos read()
 
-	$resultado = $cat->read();
+	if (isset($_GET['id'])){
+		$resultado = $cat->read($_GET['id']);
+	}elseif(isset($_GET['idcategoria'])){
+		$resultado = $cat->readByCat($_GET['idcategoria']);
+	}else{
+		$resultado = $cat->read();
+	}
 
 	$qtde_cats = sizeof($resultado);
 
@@ -26,6 +32,6 @@
 		echo json_encode($resultado);
 	}else{
 		echo json_encode(
-			array('mensagem'=>'Nenhuma categorua encontrada')
+			array('mensagem'=>'Nenhuma categoria encontrada')
 		);
 	}
