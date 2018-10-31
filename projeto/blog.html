@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog IA16</title>
+	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400" rel="stylesheet">
+	<style>
+		*{
+			font-family: 'Quicksand', sans-serif;
+		}
+		body {
+		background-image: url("wallpaper.jpg");
+		}
+		.bloco{
+			border-style: solid;
+			background-color: white;
+			width: 60%;
+			padding-top: 50px;
+			padding-right: 50px;
+			padding-bottom: 50px;
+			padding-left: 50px;
+			margin-left: 17%;
+		}
+		.title{
+			height: 150px;
+			text-align: center;
+			font-size: 100px;
+			color: white;
+		}
+		.pub{
+			font-weight: 300;
+		}
+		#clearfix {
+			overflow: auto;
+		}
+		#menu ul {
+			font-size: 20px;
+			padding:0px;
+			margin:0px;
+			background-color: none;
+			list-style:none;
+			text-align: center;
+			display: flex; 	
+
+		}
+		#menu ul li { 
+			display: inline;
+			flex-grow: 1;
+		}
+		#menu ul li a {
+			width: 25%;
+			padding: 2px 100px;
+			display: inline-block;
+			background-color:none;
+			border-top: 2px solid;
+			border-bottom: 2px solid;
+			color: black;
+			text-decoration: none;
+			color:white;
+		}
+		#menu ul li a:hover {
+			background-color:#05cceb;
+			color: white;
+			border: solid #05cceb;
+		}
+	</style>
+</head>
+<body>
+	
+	<nav id="menu">
+    	<ul class="menu">
+        	
+    	</ul>
+	</nav>
+
+	<div class="title">Blog IA16</div>
+	
+	<section id="publicacoes"></section>
+
+	<script>
+		const menu = document.querySelector(".menu");
+		const publicacoes = document.querySelector("#publicacoes");
+		
+		async function geraMenu(){
+			resp = await fetch('http://localhost/projeto/api/categoria/read.php');
+			categorias = await resp.json();
+			
+			for (i=0; i<categorias.length; i++){
+				li = document.createElement("li");
+				a = document.createElement("a");
+				texto = document.createTextNode(categorias[i].nome);
+				a.appendChild(texto);
+				li.appendChild(a);
+				menu.appendChild(li);
+
+			}
+
+		}
+
+		async function geraPost(){
+			resp = await fetch('http://localhost/projeto/api/posts/read.php');
+			posts = await resp.json();
+				for (i=0; i<posts.length; i++){
+					bloco = document.createElement("div");
+					bloco.setAttribute("class", "bloco");
+
+					h2 = document.createElement("h2");
+					titulo = document.createTextNode(posts[i].titulo);
+					h2.appendChild(titulo);
+					bloco.appendChild(h2);
+
+					pub = document.createElement("div");
+					pub.setAttribute("class", "pub");
+
+					pub.innerHTML = "Publicado em "+posts[i].dt_criacao + "<br/>Por "+posts[i].autor ;
+					//data = document.createTextNode("Publicado em "+posts[i].dt_criacao);
+					//pub.appendChild(data);
+					
+					//autor = document.createTextNode("<br/> Por "+posts[i].autor);
+					//pub.appendChild(autor);
+
+					p = document.createElement("p");
+					texto = document.createTextNode(posts[i].texto);
+					p.appendChild(texto);
+
+					bloco.appendChild(h2);
+					bloco.appendChild(pub);
+					bloco.appendChild(p);
+
+					publicacoes.appendChild(bloco);
+
+			}
+		}
+
+		geraPost();
+		geraMenu();
+
+	</script>
+</body>
+</html>
